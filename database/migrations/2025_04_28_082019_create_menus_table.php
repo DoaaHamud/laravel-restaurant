@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
+            $table->double('price');
             $table->text('description');
-            $table->integer('price');
-            $table->string('category');
-            $table->string('ingredients');
-            $table->string('size');
             $table->timestamps();
         });
     }
