@@ -11,17 +11,13 @@ class MenuController extends Controller
 {
     public function ContentMenu(Request $request){
         try{
-        $request->validate([
+        $validatedata=$request->validate([
             "name"=>"required|string",
             "price"=>"required|numeric",
             "description"=>"required"
 
         ]);
-        $menu=menu::create([
-             "name"=>$request->name,
-             "price"=>$request->price,
-             "description"=>$request->description
-        ]);
+        $menu=menu::create($validatedata);
         if($menu){
            return response()->json(['status'=>'تم','message'=>'success insert dat','data'=>$menu],200) ;
         }
@@ -41,7 +37,13 @@ class MenuController extends Controller
     
     public function UpdateContentMenu(Request $request, $id){
         $menu=menu::findOrFail($id);
-        $menu->update($request->only('name','description','price'));
+        $validatedata= $request->validate([
+            "name"=>"sometimes|string",
+            "price"=>"sometimes|numeric",
+            "description"=>"sometimes"
+
+        ]);
+        $menu->update($validatedata);
         return response()->json(['status'=>'success','message'=>'successfully update data','data'=>$menu],200);
     }
     public function DeleteContentMenu($id){
